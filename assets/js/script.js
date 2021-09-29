@@ -1,6 +1,7 @@
 var tasksToDoEl = document.querySelector("#tasks-to-do");
 var formEl = document.querySelector("#task-form");
 var taskIDCounter = 0;
+var pageContentEl = document.querySelector("#page-content");
 
 var taskFormHandler = function(event) {
 
@@ -87,6 +88,54 @@ var createTaskActions = function(taskID) {
 
 }
 
+
 formEl.addEventListener("submit", taskFormHandler);
+
+var taskButtonHandler = function(event) {
+    
+    var targetEl = event.target;
+
+    if (targetEl.matches(".edit-btn")) {
+        var taskID = targetEl.getAttribute("data-task-id");
+        editTask(taskID);
+    }
+
+    else if (targetEl.matches(".delete-btn")) {
+        
+        var taskID = targetEl.getAttribute("data-task-id");
+        deleteTask(taskID);
+    }
+};
+
+var editTask = function(taskID) {
+    console.log("editing task #" + taskID);
+
+    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskID + "']");
+
+    var taskName = taskSelected.querySelector("h3.task-name").textContent;
+    
+
+    var taskType = taskSelected.querySelector("span.task-type").textContent;
+
+    document.querySelector("input[name='task-name']").value = taskName;
+    document.querySelector("select[name='task-type']").value = taskType;
+
+    document.querySelector("#save-task").textContent = "Save Task";
+    
+
+    
+
+
+}
+
+var deleteTask = function(taskID) {
+    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskID + "']");
+    taskSelected.remove();
+}
+
+pageContentEl.addEventListener("click", taskButtonHandler);
+
+ 
+
 
 
